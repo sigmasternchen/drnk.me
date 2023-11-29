@@ -1,0 +1,12 @@
+
+CREATE TABLE `dm_urls` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `deleted` DATETIME,
+    `slug` VARCHAR(100) NOT NULL,
+    `url` VARCHAR(255) NOT NULL,
+    `access_key` VARCHAR(255),
+
+    INDEX (`slug`)
+);
