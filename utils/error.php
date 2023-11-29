@@ -1,5 +1,9 @@
 <?php
 
+function redirect(string $url) {
+    header("Location: " . $url, true, 302);
+}
+
 function setStatusCode(int $status) {
     header("HTTP/", true, $status);
 }

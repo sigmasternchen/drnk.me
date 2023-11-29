@@ -64,7 +64,7 @@ class Router {
             $route = $this->notFoundHandler;
         }
 
-        $context["REQUEST_PATH"] = $path;
+        $context[REQUEST_PATH] = $path;
 
         return $route($context);
     }

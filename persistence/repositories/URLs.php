@@ -34,7 +34,14 @@ class URLs {
         if ($statement->rowCount() == 0) {
             return null;
         } else {
-            return $statement->fetch();
+            $row = $statement->fetch();
+            $url = new URL($row["slug"], $row["url"], $row["access_key"]);
+            $url->id = $row["id"];
+            $url->created = new DateTime($row["created"]);
+            $url->updated = new DateTime($row["updated"]);
+            $url->deleted = ($row["deleted"]) ? new DateTime($row["deleted"]) : null;
+
+            return $url;
         }
     }
 }
