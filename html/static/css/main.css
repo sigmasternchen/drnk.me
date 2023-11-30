@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("/static/fonts/Poppins/Poppins-Regular.ttf");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("/static/fonts/Poppins/Poppins-Bold.ttf");
+    font-weight: bold;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+html {
+    background: lightgray;
+}
+
+.page-header {
+    position: fixed;
+    left: 30vw;
+    width: 50vw;
+    top: 5vw;
+}
+
+.page-header h1 {
+    font-weight: normal;
+    font-size: 5vw;
+    margin: 0;
+}
+
+.page-header h2 {
+    font-weight: normal;
+    font-size: 3vw;
+    margin: -1vw 0 0 3vw;
+}
+
+.bottle {
+    position: fixed;
+    width: 50vw;
+    left: 0;
+    top: calc((100vh - 50vw) / 2 + 5vw);
+}
+
+.center-panel {
+    position: fixed;
+    width: 40vw;
+    height: 30vw;
+    top: 25vw;
+    left: 40vw;
+}
+
+.center-panel input {
+    font-size: 3vw;
+    width: 100%;
+    margin-top: 1vw;
+}

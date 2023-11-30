@@ -1,5 +1,7 @@
 <?php
 
 return function (array &$context) {
-    echo "Hello World";
+    $data = [];
+
+    require(ROOT . "/templates/pages/homepage.php");
 };
