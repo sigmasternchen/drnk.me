@@ -22,9 +22,10 @@ return function (array &$context) {
 
     if (!$url) {
         setStatusCode(400);
-        echo json_encode(
-            errorResponse("URL missing", "Please provide a URL.")
-        );
+        $data = [
+            "error" => "Something went wrong. Please try again later."
+        ];
+        require(ROOT . "/templates/pages/components/url-form.php");
         return;
     }
 
@@ -49,5 +50,9 @@ return function (array &$context) {
         $accessKey
     ));
 
-    echo json_encode($result);
+    $data = [
+        "url" => "https://drnk.me/$slug",
+        "accessKey" => $accessKey,
+    ];
+    require(ROOT . "/templates/pages/components/creation-successful.php");
 };

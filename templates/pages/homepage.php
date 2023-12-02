@@ -10,10 +10,7 @@ require(__DIR__ . "/../layout/top.php");
 <img class="bottle" src="/static/img/bottle.png" alt="picture of a vile with a tag 'Drnk Me'" />
 
 <div class="center-panel">
-    <form action="/manage" method="POST">
-        <input type="text" name="url" placeholder="<?php echo $data["url"] ?? "URL" ?>">
-        <input type="submit" value="Submit">
-    </form>
+    <?php require(__DIR__ . "/components/url-form.php"); ?>
 </div>
 
 <?php
