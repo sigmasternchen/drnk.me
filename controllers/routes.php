@@ -13,6 +13,7 @@ function fromController(string $path, string $endpoint = null) {
 
 return function(Router $router) {
     $router->addRoute(GET, "/", fromController("/GET"));
+    $router->addRoute(POST, "/manage", fromController("/manage/POST"));
 
     $router->addRoute(GET, "/.*", fromController("/slug/GET"));
 };

@@ -22,6 +22,40 @@ class URLs {
             $entry->url,
             $entry->accessKey,
         ]);
+
+        return $this->getById($this->connection->lastInsertId());
+    }
+
+    public function getUnusedSlugs(array $slugs) {
+        $placeholderList = join(",", array_map(fn($_) => "?", $slugs));
+
+        $statement = $this->connection->prepare(<<<EOF
+            SELECT `slug` FROM `$this->table`
+            WHERE `slug` IN ($placeholderList)
+        EOF);
+        $statement->execute($slugs);
+
+        $existing = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return array_values(array_diff($slugs, $existing));
+    }
+
+    private function entityFromRow($row) {
+        $url = new URL($row["slug"], $row["url"], $row["access_key"]);
+        $url->id = $row["id"];
+        $url->created = new DateTime($row["created"]);
+        $url->updated = new DateTime($row["updated"]);
+        $url->deleted = ($row["deleted"]) ? new DateTime($row["deleted"]) : null;
+
+        return $url;
+    }
+
+    public function getById(int $id) {
+        $statement = $this->connection->prepare(<<<EOF
+            SELECT * FROM `$this->table` WHERE `id` = ?
+        EOF);
+        $statement->execute([$id]);
+        return $this->entityFromRow($statement->fetch());
     }
 
     public function getBySlug(string $slug) {
@@ -34,14 +68,7 @@ class URLs {
         if ($statement->rowCount() == 0) {
             return null;
         } else {
-            $row = $statement->fetch();
-            $url = new URL($row["slug"], $row["url"], $row["access_key"]);
-            $url->id = $row["id"];
-            $url->created = new DateTime($row["created"]);
-            $url->updated = new DateTime($row["updated"]);
-            $url->deleted = ($row["deleted"]) ? new DateTime($row["deleted"]) : null;
-
-            return $url;
+            return $this->entityFromRow($statement->fetch());
         }
     }
 }
