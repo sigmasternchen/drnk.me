@@ -62,3 +62,14 @@ html {
 .result {
     font-size: 2vw;
 }
+
+.error {
+    border: 1px solid red;
+    color: red;
+    padding: 0.2vw;
+    font-size: 1.3vw;
+}
+
+.invisible {
+    opacity: 0;
+}
