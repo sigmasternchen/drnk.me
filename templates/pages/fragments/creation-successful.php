@@ -3,4 +3,4 @@
     <a href="javascript:copy('.result a')" class="copy"><i class="fa-regular fa-copy"></i></a>
 </div>
 <!-- <?php echo $data["accessKey"] ?? ""; ?> -->
-Click <a hx-get="/?formonly" hx-swap="innerHTML" hx-target=".center-panel" href="/">here</a> to create a new link.
+Click <a hx-get="/?formonly" hx-swap="innerHTML" hx-target=".center-panel" href="/">here</a> to create another link.

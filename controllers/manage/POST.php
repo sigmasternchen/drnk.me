@@ -57,7 +57,7 @@ function validateInput(string $url) {
         $error = "That URL doesn't looks right. Please try again.";
     } else if (substr($url, 0, 4) !== "http") {
         setStatusCode(400);
-        $error = "Only http:// and https:// are supported.";
+        $error = "Only http:// and https:// URLs are supported.";
     } else if (
         ($hostname && !$ip && !dns_get_record($hostname, DNS_A | DNS_AAAA | DNS_CNAME)) ||
         ($ip && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
