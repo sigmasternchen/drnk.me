@@ -9,6 +9,6 @@
 ?>
 
 <form action="/manage" method="POST" hx-post="/manage" hx-swap="innerHTML" hx-target=".center-panel">
-    <input type="text" name="url" placeholder="<?php echo $data["url"] ?? "URL" ?>">
+    <input type="text" name="url" value="<?php echo htmlspecialchars($data["url"] ?? ""); ?>" placeholder="https://">
     <input type="submit" value="Submit">
 </form>

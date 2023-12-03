@@ -6,7 +6,9 @@ const CANDIDATES_PER_ITERATION = 10;
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 20;
 
-function generate_candidate($length) {
+const DEFAULT_SCHEMA = "http://";
+
+function generateCandidate(string $length) {
     $charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     return join("",
@@ -17,31 +19,83 @@ function generate_candidate($length) {
     );
 }
 
-return function (array &$context) {
-    $url = $_POST["url"] ?? "";
+function validateInput(string $url) {
+    $error = null;
 
-    if (!$url) {
-        setStatusCode(400);
-        $data = [
-            "error" => "Something went wrong. Please try again later."
-        ];
-        require(ROOT . "/templates/pages/components/url-form.php");
-        return;
+    if (strpos($url, "://") === false) {
+        $url = DEFAULT_SCHEMA . $url;
     }
 
-    $repository = $context[REPOSITORIES]->urls;
+    $puny = idn_to_ascii($url);
 
+    $matches = [];
+    preg_match(
+        "/^.*?:\/\/([a-zA-Z0-9\-.]+).*$/",
+        $puny,
+        $matches
+    );
+    $hostname = $matches[1] ?? null;
+    $matches = [];
+    preg_match(
+        "/^.*?:\/\/([0-9:.]+).*$/",
+        $puny,
+        $matches
+    );
+    $ip = $matches[1] ?? null;
+
+    if ($url == DEFAULT_SCHEMA) {
+        setStatusCode(400);
+        $error = "Something went wrong. Please try again later.";
+    } else if (!filter_var($puny, FILTER_VALIDATE_URL)) {
+        setStatusCode(400);
+        $error = "That URL doesn't looks right. Please try again.";
+    } else if (substr($url, 0, 4) !== "http") {
+        setStatusCode(400);
+        $error = "Only http:// and https:// are supported.";
+    } else if (
+        ($hostname && !$ip && !dns_get_record($hostname, DNS_A | DNS_AAAA | DNS_CNAME)) ||
+        ($ip && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
+    ) {
+        setStatusCode(400);
+        $error = "This host doesn't seem to exist. Please use another one.";
+    }
+
+    if ($error) {
+        $data = [
+            "error" => $error,
+            "url" => $url,
+        ];
+        require(ROOT . "/templates/pages/components/url-form.php");
+        return null;
+    } else {
+        return $url;
+    }
+}
+
+function generateSlug(URLs $repository) {
     $candidates = [];
     for ($length = MIN_LENGTH; count($candidates) == 0 || $length > MAX_LENGTH; $length++) {
         $candidates = $repository->getUnusedSlugs(
             array_map(
-                fn($_) => generate_candidate($length),
+                fn($_) => generateCandidate($length),
                 range(1, CANDIDATES_PER_ITERATION)
             )
         );
     }
 
-    $slug = $candidates[0];
+    return $candidates[0];
+}
+
+return function (array &$context) {
+    $url = $_POST["url"] ?? "";
+    $url = validateInput($url);
+    if (!$url) {
+        return;
+    }
+
+    $repository = $context[REPOSITORIES]->urls;
+    $slug = generateSlug($repository);
+
     $accessKey = sha1($url . "-" . $url . "-" . microtime() . "-" . rand());
 
     $result = $context[REPOSITORIES]->urls->add(new URL(
