@@ -15,59 +15,96 @@
     font-family: "Poppins", sans-serif;
 }
 
+:root {
+    --ref-unit: 1vw;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    :root {
+        --ref-unit: 1.5vh;
+    }
+}
+
 html {
     background: lightgray;
 }
 
 .page-header {
     position: fixed;
-    left: 30vw;
-    width: 50vw;
-    top: 5vw;
+    left: calc(30 * var(--ref-unit));
+    width: calc(50 * var(--ref-unit));
+    top: calc(5 * var(--ref-unit));
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .page-header {
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
 }
 
 .page-header h1 {
     font-weight: normal;
-    font-size: 5vw;
+    font-size: calc(5 * var(--ref-unit));
     margin: 0;
 }
 
 .page-header h2 {
     font-weight: normal;
-    font-size: 3vw;
-    margin: -1vw 0 0 3vw;
+    font-size: calc(3 * var(--ref-unit));
+    margin: calc(-1 * var(--ref-unit)) 0 0 calc(3 * var(--ref-unit));
 }
 
 .bottle {
     position: fixed;
-    width: 50vw;
+    width: calc(50 * var(--ref-unit));
     left: 0;
-    top: calc((100vh - 50vw) / 2 + 5vw);
+    top: calc((100vh - 50 * var(--ref-unit)) / 2 + 5 * var(--ref-unit));
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .bottle {
+        filter: contrast(50%) blur(2vw);
+    }
+}
+
+@media (max-aspect-ratio: 3/4) {
+    .bottle {
+        width: 110vw;
+    }
 }
 
 .center-panel {
     position: fixed;
-    width: 40vw;
-    height: 30vw;
-    top: 25vw;
-    left: 40vw;
+    width: calc(40 * var(--ref-unit));
+    height: calc(30 * var(--ref-unit));
+    top: calc(25 * var(--ref-unit));
+    left: calc(40 * var(--ref-unit));
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .center-panel {
+        width: 80vw;
+        left: 10vw;
+    }
 }
 
 .center-panel input {
-    font-size: 3vw;
+    font-size: calc(3 * var(--ref-unit));
     width: 100%;
-    margin-top: 1vw;
+    margin-top: calc(1 * var(--ref-unit));
 }
 
 .result {
-    font-size: 2vw;
+    font-size: calc(3 * var(--ref-unit));
 }
 
 .error {
     border: 1px solid red;
     color: red;
-    padding: 0.2vw;
-    font-size: 1.3vw;
+    padding: calc(0.2 * var(--ref-unit));
+    font-size: calc(1.3 * var(--ref-unit));
 }
 
 .invisible {
@@ -76,7 +113,7 @@ html {
 
 .copy, .copy:visited {
     color: black;
-    padding-left: 1vw;
+    padding-left: calc(1 * var(--ref-unit));
 }
 
 .copy:hover {
