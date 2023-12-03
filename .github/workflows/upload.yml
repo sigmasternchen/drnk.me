@@ -31,6 +31,9 @@ jobs:
         run: |
           sudo apt install lftp
           rm -rf .git .github
+          pushd bin
+          ./fetch-dependencies.sh
+          popd
           cp credentials.templ.php credentials.php
           sed -i -e "s/{DB_DSN}/${DB_DSN}/g" credentials.php
           sed -i -e "s/{DB_SCHEMA}/${DB_SCHEMA}/g" credentials.php
