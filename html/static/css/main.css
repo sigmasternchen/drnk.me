@@ -73,3 +73,16 @@ html {
 .invisible {
     opacity: 0;
 }
+
+.copy, .copy:visited {
+    color: black;
+    padding-left: 1vw;
+}
+
+.copy:hover {
+    color: grey;
+}
+
+.copy:active {
+    color: lightpink;
+}
