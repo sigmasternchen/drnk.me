@@ -86,6 +86,10 @@ function generateSlug(URLs $repository) {
     return $candidates[0];
 }
 
+function generateAccessKey(string $slug, string $url) {
+    return sha1($url . "-" . $url . "-" . microtime() . "-" . rand());
+}
+
 return function (array &$context) {
     $url = $_POST["url"] ?? "";
     $url = validateInput($url);
@@ -94,19 +98,25 @@ return function (array &$context) {
     }
 
     $repository = $context[REPOSITORIES]->urls;
-    $slug = generateSlug($repository);
 
-    $accessKey = sha1($url . "-" . $url . "-" . microtime() . "-" . rand());
+    $result = $repository->getByUrl($url);
+    if ($result) {
+        // don't leak existing access key
+        $result->accessKey = "";
+    } else {
+        $slug = generateSlug($repository);
+        $accessKey = generateAccessKey($slug, $url);
 
-    $result = $context[REPOSITORIES]->urls->add(new URL(
-        $slug,
-        $url,
-        $accessKey
-    ));
+        $result = $repository->add(new URL(
+            $slug,
+            $url,
+            $accessKey
+        ));
+    }
 
     $data = [
-        "url" => "https://drnk.me/$slug",
-        "accessKey" => $accessKey,
+        "url" => "https://drnk.me/" . $result->slug,
+        "accessKey" => $result->accessKey,
     ];
     require(ROOT . "/templates/pages/components/creation-successful.php");
 };

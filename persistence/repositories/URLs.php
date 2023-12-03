@@ -71,4 +71,18 @@ class URLs {
             return $this->entityFromRow($statement->fetch());
         }
     }
+
+    public function getByUrl(string $url) {
+        $statement = $this->connection->prepare(<<<EOF
+            SELECT * FROM `$this->table`
+            WHERE `url` = ?
+        EOF);
+        $statement->execute([$url]);
+
+        if ($statement->rowCount() == 0) {
+            return null;
+        } else {
+            return $this->entityFromRow($statement->fetch());
+        }
+    }
 }
