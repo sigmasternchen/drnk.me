@@ -3,7 +3,7 @@
 require_once(ROOT . "/utils/error.php");
 
 const CANDIDATES_PER_ITERATION = 10;
-const MIN_LENGTH = 3;
+const MIN_LENGTH = 4;
 const MAX_LENGTH = 20;
 
 const DEFAULT_SCHEMA = "http://";
