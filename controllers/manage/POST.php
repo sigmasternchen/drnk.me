@@ -9,7 +9,8 @@ const MAX_LENGTH = 20;
 const DEFAULT_SCHEMA = "http://";
 
 function generateCandidate(string $length) {
-    $charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //$charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $charset = "bcdfghklmnpqrstvwxyzBCDFGHKLMNPQRSTVWXYZ256789";
 
     return join("",
         array_map(
