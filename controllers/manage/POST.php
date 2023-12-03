@@ -36,6 +36,11 @@ function validateInput(string $url) {
         $matches
     );
     $hostname = $matches[1] ?? null;
+    if ($hostname[strlen($hostname) - 1] != ".") {
+        // add . so DNS lookup won't fail
+        $hostname .= ".";
+    }
+
     $matches = [];
     preg_match(
         "/^.*?:\/\/([0-9:.]+).*$/",
