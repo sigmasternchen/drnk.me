@@ -1,0 +1,15 @@
+{
+  "short_name": "drnk.me",
+  "name": "drnk.me: URL Shortener",
+  "icons": [
+    {
+      "src": "/static/icons/favicon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "background_color": "lightgrey",
+  "display": "standalone"
+}
