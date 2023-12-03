@@ -71,7 +71,7 @@ function validateInput(string $url) {
             "error" => $error,
             "url" => $url,
         ];
-        require(ROOT . "/templates/pages/components/url-form.php");
+        require(ROOT . "/templates/pages/fragments/url-form.php");
         return null;
     } else {
         return $url;
@@ -124,5 +124,5 @@ return function (array &$context) {
         "url" => "https://drnk.me/" . $result->slug,
         "accessKey" => $result->accessKey,
     ];
-    require(ROOT . "/templates/pages/components/creation-successful.php");
+    require(ROOT . "/templates/pages/fragments/creation-successful.php");
 };

@@ -10,7 +10,7 @@ require(__DIR__ . "/../layout/top.php");
 <img class="bottle" src="/static/img/bottle.png" alt="picture of a vile with a tag 'Drnk Me'" />
 
 <div class="center-panel">
-    <?php require(__DIR__ . "/components/url-form.php"); ?>
+    <?php require(__DIR__ . "/fragments/url-form.php"); ?>
 </div>
 
 <?php
